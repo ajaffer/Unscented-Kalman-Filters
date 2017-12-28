@@ -18,6 +18,7 @@ public:
   * Destructor.
   */
   virtual ~Tools();
+  VectorXd PolarToCartesian(const VectorXd& raw_measurements_);
 
   /**
   * A helper method to calculate RMSE.

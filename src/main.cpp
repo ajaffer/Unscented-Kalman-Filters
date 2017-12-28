@@ -110,7 +110,6 @@ int main()
 
     	  //Push the current estimated x,y positon from the Kalman filter's state vector
 
-        std::cout << "here" << std::endl;   
     	  VectorXd estimate(4);
 
     	  double p_x = ukf.x_(0);
