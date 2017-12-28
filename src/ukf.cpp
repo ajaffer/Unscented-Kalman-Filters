@@ -53,14 +53,6 @@ UKF::UKF()
   // Radar measurement noise standard deviation radius change in m/s
   std_radrd_ = 0.3;
   //DO NOT MODIFY measurement noise values above these are provided by the sensor manufacturer.
-
-  /**
-  TODO:
-
-  Complete the initialization. See ukf.h for other member properties.
-
-  Hint: one or more values initialized above might be wildly off...
-  */
 }
 
 UKF::~UKF() {}
@@ -68,29 +60,18 @@ UKF::~UKF() {}
 /**
  * @param {MeasurementPackage} meas_package The latest measurement data of
  * either radar or laser.
+ * 
+ * Contains code from the udacity quiz solutions.
  */
 void UKF::ProcessMeasurement(MeasurementPackage meas_package)
 {
-  /**
-  TODO:
-
-  Complete this function! Make sure you switch between lidar and radar
-  measurements.
-  */
 
   /*****************************************************************************
    *  Initialization
    ****************************************************************************/
   if (!is_initialized_)
   {
-    /**
-    TODO:
-      * Initialize the state ekf_.x_ with the first measurement.
-      * Create the covariance matrix.
-      * Remember: you'll need to convert radar from polar to cartesian coordinates.
-    */
     cout << "first measurement. " << endl;
-    //TODO fine tune state vector values
     x_ << meas_package.raw_measurements_[0], meas_package.raw_measurements_[1], 4.3, M_PI / 9, M_PI / 18;
 
     if (meas_package.sensor_type_ == MeasurementPackage::RADAR)
@@ -167,15 +148,11 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package)
  * Predicts sigma points, the state, and the state covariance matrix.
  * @param {double} delta_t the change in time (in seconds) between the last
  * measurement and this one.
+ * 
+ * Contains code from the udacity quiz solutions.
  */
 void UKF::Prediction(double delta_t)
 {
-  /**
-  TODO:
-
-  Complete this function! Estimate the object's location. Modify the state
-  vector, x_. Predict sigma points, the state, and the state covariance matrix.
-  */
   std::cout << "** Prediction(" << delta_t << ")" << std::endl;
 
   std::cout << "Generating Aug sigma points " << std::endl;
@@ -198,10 +175,6 @@ void UKF::Prediction(double delta_t)
   P_aug.topLeftCorner(n_x_, n_x_) = P_;
   P_aug(5, 5) = std_a_ * std_a_;
   P_aug(6, 6) = std_yawdd_ * std_yawdd_;
-  // MatrixXd Q = MatrixXd(2, 2);
-  // Q << std_a_ * std_a_, 0,
-  //     0, std_yawdd_ * std_yawdd_;
-  // P_aug.bottomRightCorner(2, 2) = Q;
 
   //calculate square root of P
   MatrixXd A = P_aug.llt().matrixL();
@@ -311,18 +284,11 @@ void UKF::Prediction(double delta_t)
 /**
  * Updates the state and the state covariance matrix using a laser measurement.
  * @param {MeasurementPackage} meas_package
+ * 
+ * Contains code from the udacity quiz solutions.
  */
 void UKF::UpdateLidar(MeasurementPackage meas_package)
 {
-  /**
-  TODO:
-
-  Complete this function! Use lidar data to update the belief about the object's
-  position. Modify the state vector, x_, and covariance, P_.
-
-  You'll also need to calculate the lidar NIS.
-  */
-
   std::cout << "** UpdateLidar(" << meas_package.raw_measurements_ << ")" << std::endl;
 
   //set measurement dimension, radar can measure r, phi, and r_dot
@@ -438,6 +404,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package)
 /**
  * Updates the state and the state covariance matrix using a radar measurement.
  * @param {MeasurementPackage} meas_package
+ * 
+ * Contains code from the udacity quiz solutions.
  */
 void UKF::UpdateRadar(MeasurementPackage meas_package)
 {
